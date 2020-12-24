@@ -1,5 +1,6 @@
 import os
 import re
+from collections import Counter, defaultdict
 
 def func(matched):
     s = ""
@@ -56,6 +57,19 @@ def check_data(path):
                         return False
             return True
 
+def build_vocab():
+    all_words = []
+    with open("processed_data/train/text", "r", encoding="UTF-8") as ftext:
+        lines = [line.strip() for line in ftext.readlines()]
+        for line in lines:
+            all_words.extend(line)
+    counter = Counter(all_words)
+    common_words = counter.most_common() # 4242
+    vocab_words = [pair[0] for pair in common_words[:4000]]
+    with open("processed_data/vocab", "w", encoding="UTF-8") as f:
+        for word in vocab_words:
+            f.write(word+'\n')
+
 if __name__ == "__main__":
     print("processing...")
     get_text_target("train")
@@ -67,4 +81,7 @@ if __name__ == "__main__":
         print("Error!!!")
     else:
         print("Ok!!!")
+
+    build_vocab()
+    print("Finished...")
     
