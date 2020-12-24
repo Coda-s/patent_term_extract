@@ -58,6 +58,9 @@ def check_data(path):
             return True
 
 def build_vocab():
+    """
+    build the vocab from train data
+    """
     all_words = []
     with open("processed_data/train/text", "r", encoding="UTF-8") as ftext:
         lines = [line.strip() for line in ftext.readlines()]
